@@ -2,10 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package com.controller;
+
+import com.dao.BookDAO;
+import com.pojo.event;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +22,9 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author sneha
  */
 public class AddEventServlet extends HttpServlet {
-
+    RequestDispatcher  rd=null;
+    HttpSession session=null;
+    BookDAO bDAO=null;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,15 +39,22 @@ public class AddEventServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddEventServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddEventServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            session = request.getSession(true);
+            event e = new event(request.getParameter("event_name"),
+                    java.sql.Date.valueOf(request.getParameter("event_start_date")),
+                    java.sql.Date.valueOf(request.getParameter("event_end_date")),
+                                    request.getParameter("event_description"));
+            boolean hasInserted = bDAO.executeEventInsert(e);
+            rd = request.getRequestDispatcher("addEvent.jsp");
+            if(hasInserted){
+                session.setAttribute("fontcolor", "green");
+                session.setAttribute("result", "NEW EVENT CREATED"); 
+            }
+            else{
+                session.setAttribute("fontcolor", "red");
+                session.setAttribute("result", "NEW EVENT CREATION FAILED");
+            }
+            rd.forward(request, response);
         }
     }
 
