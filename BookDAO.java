@@ -37,7 +37,7 @@ public class BookDAO {
     public BookDAO() {           
         try{            
             Class.forName("org.postgresql.Driver");
-            con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/","tomcat", "tomcat");
+            con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookPedlar","", "");
             System.out.println("Connection Object--------->"+con);
             stmt=con.createStatement();
         }
