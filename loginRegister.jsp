@@ -14,9 +14,21 @@
     <body>
         <h1>Login</h1>
         <form action="LoginServlet" method="get">
-            <br>Enter User ID: <input type="text" name="id" id="id">
-            <br>Enter Password: <input type="text" name="pwd" id="pwd">
-            <br><button type="submit">SUBMIT</button>
+            <table border="1" style="border: 1px solid #ddd; border-radius: 5px;">
+            <tr>
+                <td><label for="username">Username:</label></td>
+                <td><input type="text" id="id" name="id" required></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td><input type="password" id="pwd" name="pwd" required></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;">
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+        </table>
         </form>
     </body>
 </html>
