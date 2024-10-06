@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dao;
+package com.dao;
 
 import pojo.book;
+import com.pojo.event;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -63,6 +64,25 @@ public class BookDAO {
             e.printStackTrace();
         }
         return userDetails;
+    }
+    
+    public boolean executeEventInsert(event e){
+        try{
+            pStmt = con.prepareStatement("INSERT INTO Event VALUES(?,?,?,?)");
+            pStmt.setString(1,e.getEventName());
+            pStmt.setDate(2,e.getEventSdate());
+            pStmt.setDate(3,e.getEventEdate());
+            pStmt.setString(4,e.getEventDescription());
+            
+            int rowCount= pStmt.executeUpdate();
+            if(rowCount >0){
+                return true;
+            }            
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
     }
     
 }
